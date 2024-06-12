@@ -25,9 +25,13 @@ syn match vgLoopContext /\$loop/
 			\ contained
 hi def link vgLoopContext Statement
 
-syn match vgAlias '[^{!? "][a-zA-Z0-9_\-\.$]\+[^"?!} ]'
+syn match vgContentContext /\$content/
 			\ contained
-			\ contains=vgLoopContext
+hi def link vgContentContext Statement
+
+syn match vgAlias '[a-zA-Z0-9_\-\.$]\+\({\)\@!'
+			\ contained
+			\ contains=vgLoopContext,vgContentContext
 hi def link vgAlias Type
 
 syn keyword vgInKeyword in
@@ -116,7 +120,7 @@ syn region vgCommentTag start='#{' end='}'
 hi def link vgCommentTag Comment
 
 syn region vgIncludeFileTag start='&{' end='}'
-			\ contains=vgPath,vgAlias,vgAsMod
+			\ contains=vgPath,vgAlias,vgSealedMod,vgMdMod,vgRawMod
 hi def link vgIncludeFileTag Macro
 
 syn region vgIncludeItemTag start='\${' end='}'
@@ -124,7 +128,7 @@ syn region vgIncludeItemTag start='\${' end='}'
 hi def link vgIncludeItemTag Macro
 
 syn region vgSourceTag start='\.{' end='}'
-			\ contains=vgPath,vgAlias
+			\ contains=vgPath,vgAlias,vgAsMod
 hi def link vgSourceTag Macro
 
 syn region vgBlock start='{' end='}'
@@ -139,11 +143,11 @@ syn region vgIfTag start='%{' end='}'
 hi def link vgIfTag Macro
 
 syn region vgForItemTag start='@{' end='}'
-			\ contains=vgAlias,vgInKeyword,vgPathsMod
+			\ contains=vgAlias,vgInKeyword,vgPathsMod,vgReverseMod
 			\ nextgroup=vgBlock,vgChain
 hi def link vgForItemTag Macro
 
 syn region vgForFileTag start='\*{' end='}'
-			\ contains=vgAlias,vgInKeyword,vgPath
+			\ contains=vgAlias,vgInKeyword,vgPath,vgReverseMod
 			\ nextgroup=vgBlock,vgChain
 hi def link vgForFileTag Macro
