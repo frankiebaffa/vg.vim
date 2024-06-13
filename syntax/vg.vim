@@ -99,6 +99,18 @@ syn match vgLowerMod /\s*lower\s*/ms=s+1
 			\ contained
 hi def link vgLowerMod Conditional
 
+syn match vgPathMod /\s*path\s*/ms=s+1
+			\ contained
+hi def link vgPathMod Conditional
+
+syn match vgArrayMod /\s*array\s*/ms=s+1
+			\ contained
+hi def link vgArrayMod Conditional
+
+syn match vgPopMod /\s*pop\s*/ms=s+1
+			\ contained
+hi def link vgPopMod Conditional
+
 syn region vgChain start=/-/ end=/{/me=s-1
 			\ contained
 			\ nextgroup=vgBlock
@@ -127,7 +139,7 @@ syn region vgIncludeFileTag start='\(\\\)\@<!&{' end='\(\\\)\@<!}'
 hi def link vgIncludeFileTag Macro
 
 syn region vgIncludeItemTag start='\(\\\)\@<!\${' end='\(\\\)\@<!}'
-			\ contains=vgAlias,vgIllegalQuote,vgUpperMod,vgReplaceMod,vgLowerMod
+			\ contains=vgAlias,vgIllegalQuote,vgUpperMod,vgReplaceMod,vgLowerMod,vgPathMod,vgNullableOperator
 hi def link vgIncludeItemTag Macro
 
 syn region vgSourceTag start='\(\\\)\@<!\.{' end='\(\\\)\@<!}'
@@ -141,12 +153,12 @@ syn region vgBlock start='\(\\\)\@<!{' end='\(\\\)\@<!}'
 			\ fold
 
 syn region vgIfTag start='\(\\\)\@<!%{' end='\(\\\)\@<!}'
-			\ contains=vgNotCondition,vgExistsKeyword,vgEmptyKeyword,vgAlias,vgIllegalQuote,vgNullableOperator
+			\ contains=vgNotCondition,vgExistsKeyword,vgEmptyKeyword,vgAlias,vgIllegalQuote
 			\ nextgroup=vgBlock,vgChain
 hi def link vgIfTag Macro
 
 syn region vgForItemTag start='\(\\\)\@<!@{' end='\(\\\)\@<!}'
-			\ contains=vgAlias,vgInKeyword,vgPathsMod,vgReverseMod,vgIllegalQuote
+			\ contains=vgAlias,vgInKeyword,vgPathsMod,vgReverseMod,vgIllegalQuote,vgNullableOperator
 			\ nextgroup=vgBlock,vgChain
 hi def link vgForItemTag Macro
 
@@ -154,3 +166,12 @@ syn region vgForFileTag start='\(\\\)\@<!\*{' end='\(\\\)\@<!}'
 			\ contains=vgAlias,vgInKeyword,vgPath,vgReverseMod
 			\ nextgroup=vgBlock,vgChain
 hi def link vgForFileTag Macro
+
+syn region vgSetItemTag start='\(\\\)\@<!={' end='\(\\\)\@<!}'
+			\ contains=vgAlias,vgPathMod,vgArrayMod,vgIllegalQuote
+			\ nextgroup=vgBlock,vgChain
+hi def link vgSetItemTag Macro
+
+syn region vgUnsetItemTag start='\(\\\)\@<!-{' end='\(\\\)\@<!}'
+			\ contains=vgAlias,vgPopMod,vgIllegalQuote
+hi def link vgUnsetItemTag Macro
