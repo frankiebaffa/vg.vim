@@ -147,7 +147,7 @@ syn region vgSourceTag start='\(\\\)\@<!\.{' end='\(\\\)\@<!}'
 hi def link vgSourceTag Macro
 
 syn region vgBlock start='\(\\\)\@<!{' end='\(\\\)\@<!}'
-			\ contains=vgIgnoreTag,vgCommentTag,vgSourceTag,vgIfTag,vgForFileTag,vgForItemTag,vgIncludeItemTag,vgIncludeFileTag
+			\ contains=vgIgnoreTag,vgCommentTag,vgSourceTag,vgIfTag,vgForFileTag,vgForItemTag,vgIncludeItemTag,vgIncludeFileTag,vgSetItemTag,vgUnsetItemTag
 			\ nextgroup=vgChain,vgBlock
 			\ contained
 			\ fold
