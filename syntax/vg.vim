@@ -21,6 +21,9 @@ let b:current_syntax = "vg"
 syn match vgPath '".\+"' contained
 hi def link vgPath String
 
+syn match vgIllegalQuote '"' contained
+hi def link vgIllegalQuote SpellBad
+
 syn match vgLoopContext /\$loop/
 			\ contained
 hi def link vgLoopContext Statement
@@ -107,47 +110,47 @@ hi def link vgComment Comment
 syn match vgReason '[^}]*' contained
 hi def link vgReason Constant
 
-syn region vgIgnoreTag start='!{' end='}'
+syn region vgIgnoreTag start='\(\\\)\@<!\!{' end='\(\\\)\@<!}'
 			\ contains=vgReason
 hi def link vgIgnoreTag Constant
 
-syn region vgExtendTag start='+{' end='}'
+syn region vgExtendTag start='\(\\\)\@<!+{' end='\(\\\)\@<!}'
 			\ contains=vgPath,vgAlias
 hi def link vgExtendTag Macro
 
-syn region vgCommentTag start='#{' end='}'
+syn region vgCommentTag start='\(\\\)\@<!#{' end='\(\\\)\@<!}'
 			\ contains=vgComment
 hi def link vgCommentTag Comment
 
-syn region vgIncludeFileTag start='&{' end='}'
+syn region vgIncludeFileTag start='\(\\\)\@<!&{' end='\(\\\)\@<!}'
 			\ contains=vgPath,vgAlias,vgSealedMod,vgMdMod,vgRawMod
 hi def link vgIncludeFileTag Macro
 
-syn region vgIncludeItemTag start='\${' end='}'
-			\ contains=vgAlias,vgUpperMod,vgReplaceMod,vgLowerMod
+syn region vgIncludeItemTag start='\(\\\)\@<!\${' end='\(\\\)\@<!}'
+			\ contains=vgAlias,vgIllegalQuote,vgUpperMod,vgReplaceMod,vgLowerMod
 hi def link vgIncludeItemTag Macro
 
-syn region vgSourceTag start='\.{' end='}'
+syn region vgSourceTag start='\(\\\)\@<!\.{' end='\(\\\)\@<!}'
 			\ contains=vgPath,vgAlias,vgAsMod
 hi def link vgSourceTag Macro
 
-syn region vgBlock start='{' end='}'
+syn region vgBlock start='\(\\\)\@<!{' end='\(\\\)\@<!}'
 			\ contains=vgIgnoreTag,vgCommentTag,vgSourceTag,vgIfTag,vgForFileTag,vgForItemTag,vgIncludeItemTag,vgIncludeFileTag
 			\ nextgroup=vgChain,vgBlock
 			\ contained
 			\ fold
 
-syn region vgIfTag start='%{' end='}'
-			\ contains=vgNotCondition,vgExistsKeyword,vgEmptyKeyword,vgAlias,vgNullableOperator
+syn region vgIfTag start='\(\\\)\@<!%{' end='\(\\\)\@<!}'
+			\ contains=vgNotCondition,vgExistsKeyword,vgEmptyKeyword,vgAlias,vgIllegalQuote,vgNullableOperator
 			\ nextgroup=vgBlock,vgChain
 hi def link vgIfTag Macro
 
-syn region vgForItemTag start='@{' end='}'
-			\ contains=vgAlias,vgInKeyword,vgPathsMod,vgReverseMod
+syn region vgForItemTag start='\(\\\)\@<!@{' end='\(\\\)\@<!}'
+			\ contains=vgAlias,vgInKeyword,vgPathsMod,vgReverseMod,vgIllegalQuote
 			\ nextgroup=vgBlock,vgChain
 hi def link vgForItemTag Macro
 
-syn region vgForFileTag start='\*{' end='}'
+syn region vgForFileTag start='\(\\\)\@<!\*{' end='\(\\\)\@<!}'
 			\ contains=vgAlias,vgInKeyword,vgPath,vgReverseMod
 			\ nextgroup=vgBlock,vgChain
 hi def link vgForFileTag Macro
