@@ -172,6 +172,6 @@ syn region vgSetItemTag start='\(\\\)\@<!={' end='\(\\\)\@<!}'
 			\ nextgroup=vgBlock,vgChain
 hi def link vgSetItemTag Macro
 
-syn region vgUnsetItemTag start='\(\\\)\@<!-{' end='\(\\\)\@<!}'
+syn region vgUnsetItemTag start='\(\\\)\@<!/{' end='\(\\\)\@<!}'
 			\ contains=vgAlias,vgPopMod,vgIllegalQuote
 hi def link vgUnsetItemTag Macro
