@@ -57,6 +57,9 @@ syn match vgNullableOperator '?'
 			\ contained
 hi def link vgNullableOperator Character
 
+syn match vgTrimMod /|\s*trim\s*/ms=s+1
+			\ contained
+
 syn match vgExtensionMod /|\s*ext\s*/ms=s+1
 			\ contained
 			\ nextgroup=vgPath
@@ -136,18 +139,19 @@ hi def link vgCommentTag Comment
 
 syn region vgIncludeFileTag start='\(\\\)\@<!&{' end='\(\\\)\@<!}'
 			\ contains=vgPath,vgAlias,vgSealedMod,vgMdMod,vgRawMod
+			\ nextgroup=vgBlock,vgChain
 hi def link vgIncludeFileTag Macro
 
-syn region vgIncludeItemTag start='\(\\\)\@<!\${' end='\(\\\)\@<!}'
-			\ contains=vgAlias,vgIllegalQuote,vgUpperMod,vgReplaceMod,vgLowerMod,vgPathMod,vgNullableOperator
-hi def link vgIncludeItemTag Macro
+syn region vgIncludeContentTag start='\(\\\)\@<!\${' end='\(\\\)\@<!}'
+			\ contains=vgAlias,vgIllegalQuote,vgUpperMod,vgReplaceMod,vgLowerMod,vgPathMod,vgNullableOperator,vgTrimMod
+hi def link vgIncludeContentTag Macro
 
 syn region vgSourceTag start='\(\\\)\@<!\.{' end='\(\\\)\@<!}'
 			\ contains=vgPath,vgAlias,vgAsMod
 hi def link vgSourceTag Macro
 
 syn region vgBlock start='\(\\\)\@<!{' end='\(\\\)\@<!}'
-			\ contains=vgIgnoreTag,vgCommentTag,vgSourceTag,vgIfTag,vgForFileTag,vgForItemTag,vgIncludeItemTag,vgIncludeFileTag,vgSetItemTag,vgUnsetItemTag
+			\ contains=vgIgnoreTag,vgCommentTag,vgSourceTag,vgIfTag,vgForFileTag,vgForItemTag,vgIncludeContentTag,vgIncludeFileTag,vgSetItemTag,vgUnsetItemTag
 			\ nextgroup=vgChain,vgBlock
 			\ contained
 			\ fold
