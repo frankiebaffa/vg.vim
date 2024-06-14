@@ -59,6 +59,7 @@ hi def link vgNullableOperator Character
 
 syn match vgTrimMod /|\s*trim\s*/ms=s+1
 			\ contained
+hi def link vgTrimMod Conditional
 
 syn match vgExtensionMod /|\s*ext\s*/ms=s+1
 			\ contained
@@ -143,7 +144,7 @@ syn region vgIncludeFileTag start='\(\\\)\@<!&{' end='\(\\\)\@<!}'
 hi def link vgIncludeFileTag Macro
 
 syn region vgIncludeContentTag start='\(\\\)\@<!\${' end='\(\\\)\@<!}'
-			\ contains=vgAlias,vgIllegalQuote,vgUpperMod,vgReplaceMod,vgLowerMod,vgPathMod,vgNullableOperator,vgTrimMod
+			\ contains=vgAlias,vgIllegalQuote,vgUpperMod,vgReplaceMod,vgLowerMod,vgPathMod,vgTrimMod,vgNullableOperator
 hi def link vgIncludeContentTag Macro
 
 syn region vgSourceTag start='\(\\\)\@<!\.{' end='\(\\\)\@<!}'
