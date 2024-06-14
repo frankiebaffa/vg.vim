@@ -115,7 +115,7 @@ syn match vgPopMod /\s*pop\s*/ms=s+1
 			\ contained
 hi def link vgPopMod Conditional
 
-syn region vgChain start=/-/ end=/{/me=s-1
+syn match vgChain /-/
 			\ contained
 			\ nextgroup=vgBlock
 hi def link vgChain Macro
@@ -152,10 +152,13 @@ syn region vgSourceTag start='\(\\\)\@<!\.{' end='\(\\\)\@<!}'
 hi def link vgSourceTag Macro
 
 syn region vgBlock start='\(\\\)\@<!{' end='\(\\\)\@<!}'
-			\ contains=vgIgnoreTag,vgCommentTag,vgSourceTag,vgIfTag,vgForFileTag,vgForItemTag,vgIncludeContentTag,vgIncludeFileTag,vgSetItemTag,vgUnsetItemTag
+			\ contains=vgIgnoreTag,vgCommentTag,vgSourceTag,vgIfTag,
+				\vgForFileTag,vgForItemTag,vgIncludeContentTag,vgIncludeFileTag,
+				\vgSetItemTag,vgUnsetItemTag
 			\ nextgroup=vgChain,vgBlock
 			\ contained
 			\ fold
+hi def link vgBlock Text
 
 syn region vgIfTag start='\(\\\)\@<!%{' end='\(\\\)\@<!}'
 			\ contains=vgNotCondition,vgExistsKeyword,vgEmptyKeyword,vgAlias,vgIllegalQuote
