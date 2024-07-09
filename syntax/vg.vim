@@ -2,27 +2,14 @@
 " Language: Very-Good Templating
 " Maintainer: Frankie Baffa
 
-let this_ext = expand('%:e')
-if this_ext != 'vg'
-	let ext_syn = substitute(this_ext, 'vg-', '', '')
-	execute 'runtime! syntax/' . ext_syn . '.vim'
-
-	if exists('b:current_syntax')
-		unlet b:current_syntax
-	endif
-endif
-
 if exists('b:current_syntax')
 	finish
 endif
 
 let b:current_syntax = "vg"
 
-syn match vgPath '".\+"' contained
+syn match vgPath '".\{-}"' contained
 hi def link vgPath String
-
-syn match vgIllegalQuote '"' contained
-hi def link vgIllegalQuote SpellBad
 
 syn match vgLoopContext /\$loop/
 			\ contained
@@ -90,28 +77,43 @@ syn match vgAsMod /|\s*as\s*/ms=s+1
 			\ contained
 hi def link vgAsMod Conditional
 
-syn match vgReplaceMod /\s*replace\s*/ms=s+1
-			\ nextgroup=vgPath
+syn match vgReplaceMod /|\s*replace\s*/ms=s+1
+			\ nextgroup=vgReplaceString
 			\ contained
 hi def link vgReplaceMod Conditional
 
-syn match vgUpperMod /\s*upper\s*/ms=s+1
+syn match vgReplaceString /\s*".\{-}"\s*/
+			\ nextgroup=vgReplaceString
+			\ contained
+hi def link vgReplaceString String
+
+syn match vgUpperMod /|\s*upper\s*/ms=s+1
 			\ contained
 hi def link vgUpperMod Conditional
 
-syn match vgLowerMod /\s*lower\s*/ms=s+1
+syn match vgSplitMod /|\s*split\s*/ms=s+1
+			\ contained
+			\ nextgroup=vgSplitNum
+hi def link vgSplitMod Conditional
+
+syn match vgSplitNum /\s*[0-9]\+\s*/
+			\ contained
+			\ nextgroup=vgSplitNum
+hi def link vgSplitNum Constant
+
+syn match vgLowerMod /|\s*lower\s*/ms=s+1
 			\ contained
 hi def link vgLowerMod Conditional
 
-syn match vgPathMod /\s*path\s*/ms=s+1
+syn match vgPathMod /|\s*path\s*/ms=s+1
 			\ contained
 hi def link vgPathMod Conditional
 
-syn match vgArrayMod /\s*array\s*/ms=s+1
+syn match vgArrayMod /|\s*array\s*/ms=s+1
 			\ contained
 hi def link vgArrayMod Conditional
 
-syn match vgPopMod /\s*pop\s*/ms=s+1
+syn match vgPopMod /|\s*pop\s*/ms=s+1
 			\ contained
 hi def link vgPopMod Conditional
 
@@ -130,6 +132,11 @@ syn region vgIgnoreTag start='\(\\\)\@<!\!{' end='\(\\\)\@<!}'
 			\ contains=vgReason
 hi def link vgIgnoreTag Constant
 
+syn region vgSiphonTag start='\(\\\)\@<!<{' end='\(\\\)\@<!}'
+			\ contains=vgAlias
+			\ contained
+hi def link vgSiphonTag Macro
+
 syn region vgExtendTag start='\(\\\)\@<!+{' end='\(\\\)\@<!}'
 			\ contains=vgPath,vgAlias
 hi def link vgExtendTag Macro
@@ -144,7 +151,8 @@ syn region vgIncludeFileTag start='\(\\\)\@<!&{' end='\(\\\)\@<!}'
 hi def link vgIncludeFileTag Macro
 
 syn region vgIncludeContentTag start='\(\\\)\@<!\${' end='\(\\\)\@<!}'
-			\ contains=vgAlias,vgIllegalQuote,vgUpperMod,vgReplaceMod,vgLowerMod,vgPathMod,vgTrimMod,vgNullableOperator
+			\ contains=vgAlias,vgUpperMod,vgReplaceMod,vgReplaceString,vgLowerMod,
+			\vgPathMod,vgTrimMod,vgNullableOperator,vgSplitMod,vgSplitNum
 hi def link vgIncludeContentTag Macro
 
 syn region vgSourceTag start='\(\\\)\@<!\.{' end='\(\\\)\@<!}'
@@ -161,12 +169,12 @@ syn region vgBlock start='\(\\\)\@<!{' end='\(\\\)\@<!}'
 hi def link vgBlock Text
 
 syn region vgIfTag start='\(\\\)\@<!%{' end='\(\\\)\@<!}'
-			\ contains=vgNotCondition,vgExistsKeyword,vgEmptyKeyword,vgAlias,vgIllegalQuote
+			\ contains=vgNotCondition,vgExistsKeyword,vgEmptyKeyword,vgAlias
 			\ nextgroup=vgBlock,vgChain
 hi def link vgIfTag Macro
 
 syn region vgForItemTag start='\(\\\)\@<!@{' end='\(\\\)\@<!}'
-			\ contains=vgAlias,vgInKeyword,vgPathsMod,vgReverseMod,vgIllegalQuote,vgNullableOperator
+			\ contains=vgAlias,vgInKeyword,vgPathsMod,vgReverseMod,vgNullableOperator
 			\ nextgroup=vgBlock,vgChain
 hi def link vgForItemTag Macro
 
@@ -176,10 +184,10 @@ syn region vgForFileTag start='\(\\\)\@<!\*{' end='\(\\\)\@<!}'
 hi def link vgForFileTag Macro
 
 syn region vgSetItemTag start='\(\\\)\@<!={' end='\(\\\)\@<!}'
-			\ contains=vgAlias,vgPathMod,vgArrayMod,vgIllegalQuote
-			\ nextgroup=vgBlock,vgChain
+			\ contains=vgAlias,vgPathMod,vgArrayMod
+			\ nextgroup=vgBlock,vgChain,vgSiphonTag
 hi def link vgSetItemTag Macro
 
 syn region vgUnsetItemTag start='\(\\\)\@<!/{' end='\(\\\)\@<!}'
-			\ contains=vgAlias,vgPopMod,vgIllegalQuote
+			\ contains=vgAlias,vgPopMod
 hi def link vgUnsetItemTag Macro
