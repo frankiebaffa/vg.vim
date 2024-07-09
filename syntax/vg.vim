@@ -179,7 +179,7 @@ syn region vgForItemTag start='\(\\\)\@<!@{' end='\(\\\)\@<!}'
 hi def link vgForItemTag Macro
 
 syn region vgForFileTag start='\(\\\)\@<!\*{' end='\(\\\)\@<!}'
-			\ contains=vgAlias,vgInKeyword,vgPath,vgReverseMod
+			\ contains=vgAlias,vgInKeyword,vgPath,vgReverseMod,vgExtensionMod
 			\ nextgroup=vgBlock,vgChain
 hi def link vgForFileTag Macro
 
