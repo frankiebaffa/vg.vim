@@ -19,9 +19,13 @@ syn match vgContentContext /\$content/
 			\ contained
 hi def link vgContentContext Statement
 
+syn match vgRootAlias /\$root/
+			\ contained
+hi def link vgRootAlias Statement
+
 syn match vgAlias '[a-zA-Z0-9_\-\.$]\+\({\)\@!'
 			\ contained
-			\ contains=vgLoopContext,vgContentContext
+			\ contains=vgLoopContext,vgContentContext,vgRootAlias
 hi def link vgAlias Type
 
 syn keyword vgInKeyword in
