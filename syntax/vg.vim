@@ -14,6 +14,9 @@ hi def link vgPath String
 syn match vgIllegalPath '".\{-}"' contained
 hi def link vgIllegalPath SpellBad
 
+syn match vgUnmatchedStartblock '\(\\\)\@<!{'
+hi def link vgUnmatchedStartblock SpellBad
+
 syn match vgUnmatchedEndblock '\(\\\)\@<!}'
 hi def link vgUnmatchedEndblock SpellBad
 
@@ -130,8 +133,21 @@ syn match vgPopMod /|\s*pop\s*/ms=s+1
 			\ contained
 hi def link vgPopMod Conditional
 
-syn match vgChain /-/
+syn region vgBlock start='\(\\\)\@<!{' end='\(\\\)\@<!}'
+			\ contains=vgIgnoreTag,vgCommentTag,vgSourceTag,vgIfTag,
+				\vgForFileTag,vgForItemTag,vgIncludeContentTag,vgIncludeFileTag,
+				\vgSetItemTag,vgUnsetItemTag
+			\ nextgroup=vgChain,vgBlock
 			\ contained
+			\ fold
+hi def link vgBlock Text
+
+syn match vgIllegalInChain /[^{\-]\|\(\(\\\)\@<!}\)\@<!-/ contained
+hi def link vgIllegalInChain SpellBad
+
+syn region vgChain start=/-/ end=/{/me=s-1
+			\ contained
+			\ contains=vgIllegalInChain
 			\ nextgroup=vgBlock
 hi def link vgChain Macro
 
@@ -163,15 +179,6 @@ hi def link vgIncludeContentTag Macro
 syn region vgSourceTag start='\(\\\)\@<!\.{' end='\(\\\)\@<!}'
 			\ contains=vgPath,vgAlias,vgIllegalRootAlias,vgAsMod
 hi def link vgSourceTag Macro
-
-syn region vgBlock start='\(\\\)\@<!{' end='\(\\\)\@<!}'
-			\ contains=vgIgnoreTag,vgCommentTag,vgSourceTag,vgIfTag,
-				\vgForFileTag,vgForItemTag,vgIncludeContentTag,vgIncludeFileTag,
-				\vgSetItemTag,vgUnsetItemTag
-			\ nextgroup=vgChain,vgBlock
-			\ contained
-			\ fold
-hi def link vgBlock Text
 
 syn region vgIfTag start='\(\\\)\@<!%{' end='\(\\\)\@<!}'
 			\ contains=vgNotCondition,vgExistsKeyword,vgEmptyKeyword,vgAlias,vgIllegalRootAlias,vgIllegalPath
